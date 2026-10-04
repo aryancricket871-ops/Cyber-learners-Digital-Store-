@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Learners Digital Store</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Inter,Arial,sans-serif;
+}
+
+body{
+    background:#050807;
+    color:#fff;
+    min-height:100vh;
+}
+
+button,input,textarea,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(5,8,7,.92);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid #183628;
+}
+
+.nav{
+    max-width:1250px;
+    margin:auto;
+    height:72px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:.5px;
+    user-select:none;
+}
+
+.logo b{
+    color:#00ff88;
+}
+
+.nav-right{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.cart-btn{
+    background:#09150f;
+    border:1px solid #00ff88;
+    color:#00ff88;
+    padding:10px 15px;
+    border-radius:11px;
+    font-weight:700;
+}
+
+.hero{
+    max-width:1250px;
+    margin:auto;
+    padding:75px 20px 45px;
+    text-align:center;
+}
+
+.hero-badge{
+    display:inline-flex;
+    padding:8px 15px;
+    border-radius:50px;
+    background:#092519;
+    color:#00ff88;
+    border:1px solid #195b3a;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:22px;
+}
+
+.hero h1{
+    font-size:clamp(38px,7vw,72px);
+    line-height:1.02;
+    font-weight:900;
+    letter-spacing:-2px;
+}
+
+.hero h1 span{
+    color:#00ff88;
+}
+
+.hero p{
+    max-width:650px;
+    margin:22px auto 0;
+    color:#8d9b93;
+    line-height:1.7;
+}
+
+.search{
+    max-width:650px;
+    margin:30px auto 0;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    padding:16px 18px;
+    border-radius:14px;
+    border:1px solid #214936;
+    outline:none;
+    background:#09100c;
+    color:#fff;
+}
+
+.categories{
+    max-width:1250px;
+    margin:auto;
+    padding:0 20px 25px;
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+}
+
+.cat{
+    white-space:nowrap;
+    padding:10px 17px;
+    border-radius:50px;
+    background:#08100c;
+    border:1px solid #1c3d2d;
+    color:#9eaaa3;
+}
+
+.cat.active{
+    background:#00ff88;
+    border-color:#00ff88;
+    color:#00170c;
+    font-weight:800;
+}
+
+.products{
+    max-width:1250px;
+    margin:auto;
+    padding:10px 20px 80px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
+    gap:20px;
+}
+
+.empty{
+    grid-column:1/-1;
+    min-height:250px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#718078;
+    border:1px dashed #214332;
+    border-radius:20px;
+}
+
+.card{
+    overflow:hidden;
+    border-radius:20px;
+    border:1px solid #193829;
+    background:linear-gradient(145deg,#0c1510,#07100b);
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#00ff88;
+}
+
+.card-img{
+    height:210px;
+    background:#09110d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.no-image{
+    font-size:50px;
+    color:#214936;
+}
+
+.card-body{
+    padding:18px;
+}
+
+.card-category{
+    color:#00ff88;
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:8px;
+}
+
+.card h3{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.card-desc{
+    color:#89968f;
+    line-height:1.5;
+    font-size:13px;
+    min-height:40px;
+}
+
+.card-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:18px;
+}
+
+.price{
+    font-size:21px;
+    font-weight:900;
+}
+
+.add-btn{
+    background:#00ff88;
+    border:0;
+    color:#00170c;
+    font-weight:800;
+    padding:10px 14px;
+    border-radius:10px;
+}
+
+footer{
+    border-top:1px solid #193829;
+    padding:28px;
+    text-align:center;
+    color:#637169;
+    font-size:12px;
+}
+
+/* MODALS */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(8px);
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:520px;
+    max-height:92vh;
+    overflow:auto;
+    background:#09110d;
+    border:1px solid #00ff88;
+    border-radius:22px;
+    padding:23px;
+}
+
+.close{
+    float:right;
+    font-size:25px;
+    color:#00ff88;
+    cursor:pointer;
+}
+
+.modal-title{
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    color:#aab5af;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select{
+    width:100%;
+    padding:13px;
+    border-radius:11px;
+    border:1px solid #234634;
+    outline:none;
+    background:#050a07;
+    color:#fff;
+}
+
+.input-group textarea{
+    resize:vertical;
+    min-height:100px;
+}
+
+.primary{
+    width:100%;
+    border:0;
+    padding:14px;
+    border-radius:11px;
+    background:#00ff88;
+    color:#00170c;
+    font-weight:900;
+}
+
+.secondary{
+    width:100%;
+    border:1px solid #294c3a;
+    padding:13px;
+    border-radius:11px;
+    background:#09130e;
+    color:#fff;
+    margin-top:9px;
+}
+
+/* ADMIN */
+
+.admin-box{
+    max-width:900px;
+}
+
+.admin-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.admin-add{
+    background:#00ff88;
+    border:0;
+    color:#00170c;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:900;
+}
+
+.admin-list{
+    display:grid;
+    gap:12px;
+}
+
+.admin-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:13px;
+    border:1px solid #1d3d2d;
+    background:#07100b;
+    border-radius:14px;
+}
+
+.admin-thumb{
+    width:65px;
+    height:65px;
+    flex-shrink:0;
+    border-radius:10px;
+    overflow:hidden;
+    background:#101a14;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.admin-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.admin-info{
+    flex:1;
+}
+
+.admin-info h4{
+    margin-bottom:5px;
+}
+
+.admin-info small{
+    color:#77857d;
+}
+
+.admin-actions{
+    display:flex;
+    gap:7px;
+}
+
+.edit-btn,
+.delete-btn{
+    border:0;
+    padding:8px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.edit-btn{
+    background:#143d29;
+    color:#00ff88;
+}
+
+.delete-btn{
+    background:#3b1717;
+    color:#ff7676;
+}
+
+/* CART */
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:14px 0;
+    border-bottom:1px solid #193729;
+}
+
+.remove{
+    color:#ff6868;
+    font-size:12px;
+    cursor:pointer;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+    margin:20px 0;
+    font-size:21px;
+    font-weight:900;
+}
+
+.whatsapp{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:11px;
+    background:#25D366;
+    color:#fff;
+    font-weight:900;
+}
+
+/* PASSWORD */
+
+.password-icon{
+    text-align:center;
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+.password-note{
+    text-align:center;
+    color:#77857d;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+@media(max-width:600px){
+
+    .nav{
+        height:64px;
+        padding:0 13px;
+    }
+
+    .logo{
+        font-size:16px;
+    }
+
+    .cart-btn{
+        padding:9px 11px;
+        font-size:12px;
+    }
+
+    .hero{
+        padding:55px 15px 35px;
+    }
+
+    .products{
+        padding-left:12px;
+        padding-right:12px;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:11px;
+    }
+
+    .card-img{
+        height:145px;
+    }
+
+    .card-body{
+        padding:12px;
+    }
+
+    .card h3{
+        font-size:14px;
+    }
+
+    .card-desc{
+        font-size:11px;
+    }
+
+    .price{
+        font-size:17px;
+    }
+
+    .add-btn{
+        padding:8px 9px;
+        font-size:11px;
+    }
+
+    .admin-item{
+        align-items:flex-start;
+    }
+
+    .admin-actions{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav">
+
+        <!-- DOUBLE TAP / DOUBLE CLICK HERE -->
+        <div class="logo" id="storeLogo">
+            CYBER <b>LEARNERS</b>
+        </div>
+
+        <div class="nav-right">
+            <button class="cart-btn" onclick="openCart()">
+                🛒 Cart <span id="cartCount">0</span>
+            </button>
+        </div>
+
+    </div>
+</header>
+
+<section class="hero">
+
+    <div class="hero-badge">
+        ⚡ CYBER LEARNERS DIGITAL STORE
+    </div>
+
+    <h1>
+        Your Digital<br>
+        <span>Marketplace.</span>
+    </h1>
+
+    <p>
+        Discover premium digital products, resources,
+        tools and more — all in one place.
+    </p>
+
+    <div class="search">
+        <input
+            id="search"
+            type="text"
+            placeholder="Search products..."
+            oninput="renderProducts()"
+        >
+    </div>
+
+</section>
+
+<div class="categories" id="categories">
+
+    <button class="cat active"
+        onclick="setCategory('All',this)">
+        All
+    </button>
+
+    <button class="cat"
+        onclick="setCategory('Ebooks',this)">
+        📚 Ebooks
+    </button>
+
+    <button class="cat"
+        onclick="setCategory('Templates',this)">
+        🎨 Templates
+    </button>
+
+    <button class="cat"
+        onclick="setCategory('Tools',this)">
+        🛠 Tools
+    </button>
+
+    <button class="cat"
+        onclick="setCategory('Courses',this)">
+        🎓 Courses
+    </button>
+
+    <button class="cat"
+        onclick="setCategory('Other',this)">
+        📦 Other
+    </button>
+
+</div>
+
+<section class="products" id="products"></section>
+
+<footer>
+    © 2026 Cyber Learners Digital Store
+</footer>
+
+
+<!-- PASSWORD MODAL -->
+
+<div class="modal" id="passwordModal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closePassword()">×</span>
+
+        <div class="password-icon">🔐</div>
+
+        <h2 class="modal-title" style="text-align:center">
+            Admin Access
+        </h2>
+
+        <div class="password-note">
+            Enter your administrator password.
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+
+            <input
+                id="adminPassword"
+                type="password"
+                placeholder="Enter password"
+                onkeydown="if(event.key==='Enter')checkPassword()"
+            >
+        </div>
+
+        <button class="primary" onclick="checkPassword()">
+            Unlock Admin Panel
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ADMIN PANEL -->
+
+<div class="modal" id="adminModal">
+
+    <div class="modal-box admin-box">
+
+        <span class="close" onclick="closeAdmin()">×</span>
+
+        <div class="admin-top">
+
+            <div>
+                <h2>Admin Panel</h2>
+                <small style="color:#718078">
+                    Manage your digital products
+                </small>
+            </div>
+
+            <button class="admin-add"
+                onclick="openProductEditor()">
+                + Add Product
+            </button>
+
+        </div>
+
+        <div class="admin-list" id="adminList"></div>
+
+    </div>
+
+</div>
+
+
+<!-- PRODUCT EDITOR -->
+
+<div class="modal" id="editorModal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closeEditor()">×</span>
+
+        <h2 class="modal-title" id="editorTitle">
+            Add New Product
+        </h2>
+
+        <div class="input-group">
+
+            <label>Product Name</label>
+
+            <input
+                id="productName"
+                placeholder="Example: AI Website Guide"
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Price (₹)</label>
+
+            <input
+                id="productPrice"
+                type="number"
+                min="0"
+                placeholder="99"
+            >
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Category</label>
+
+            <select id="productCategory">
+
+                <option value="Ebooks">Ebooks</option>
+                <option value="Templates">Templates</option>
+                <option value="Tools">Tools</option>
+                <option value="Courses">Courses</option>
+                <option value="Other">Other</option>
+
+            </select>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Product Description</label>
+
+            <textarea
+                id="productDescription"
+                placeholder="Write something about this product..."
+            ></textarea>
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Product Image</label>
+
+            <input
+                id="productImage"
+                type="file"
+                accept="image/*"
+                onchange="previewImage(event)"
+            >
+
+        </div>
+
+        <div id="imagePreview"
+             style="margin-bottom:15px">
+        </div>
+
+        <button class="primary"
+            onclick="saveProduct()">
+            Save Product
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CART -->
+
+<div class="modal" id="cartModal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closeCart()">×</span>
+
+        <h2 class="modal-title">
+            🛒 Your Cart
+        </h2>
+
+        <div id="cartItems"></div>
+
+        <div class="total">
+
+            <span>Total</span>
+
+            <span>
+                ₹<span id="cartTotal">0</span>
+            </span>
+
+        </div>
+
+        <button class="whatsapp"
+            onclick="orderWhatsApp()">
+            Order on WhatsApp
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   SETTINGS
+================================ */
+
+const ADMIN_PASSWORD = "Aryanxnsjx";
+
+/*
+   अपना WhatsApp नंबर यहाँ डालें.
+   Example:
+   919876543210
+*/
+const WHATSAPP_NUMBER = "919999999999";
+
+
+/* ================================
+   DATA
+================================ */
+
+let products =
+    JSON.parse(localStorage.getItem("cyberProducts")) || [];
+
+let cart = [];
+
+let currentCategory = "All";
+
+let editingId = null;
+
+let uploadedImage = "";
+
+
+/* ================================
+   DOUBLE TAP ADMIN
+================================ */
+
+let lastTap = 0;
+
+const logo = document.getElementById("storeLogo");
+
+logo.addEventListener("dblclick",openPassword);
+
+logo.addEventListener("touchend",function(e){
+
+    const now = Date.now();
+
+    if(now-lastTap < 400){
+
+        e.preventDefault();
+
+        openPassword();
+
+    }
+
+    lastTap = now;
+
+});
+
+
+/* ================================
+   PASSWORD
+================================ */
+
+function openPassword(){
+
+    document.getElementById("passwordModal")
+        .style.display="flex";
+
+    document.getElementById("adminPassword")
+        .value="";
+
+    setTimeout(()=>{
+        document.getElementById("adminPassword").focus();
+    },100);
+
+}
+
+function closePassword(){
+
+    document.getElementById("passwordModal")
+        .style.display="none";
+
+}
+
+function checkPassword(){
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    if(password === ADMIN_PASSWORD){
+
+        closePassword();
+
+        openAdmin();
+
+    }else{
+
+        alert("Incorrect password.");
+
+    }
+
+}
+
+
+/* ================================
+   ADMIN
+================================ */
+
+function openAdmin(){
+
+    document.getElementById("adminModal")
+        .style.display="flex";
+
+    renderAdmin();
+
+}
+
+function closeAdmin(){
+
+    document.getElementById("adminModal")
+        .style.display="none";
+
+}
+
+function renderAdmin(){
+
+    const list =
+        document.getElementById("adminList");
+
+    if(products.length === 0){
+
+        list.innerHTML = `
+            <div class="empty">
+                <div>
+                    <div style="font-size:40px">📦</div>
+                    <br>
+                    No products yet.<br>
+                    Add your first product.
+                </div>
+            </div>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML = products.map(p=>`
+
+        <div class="admin-item">
+
+            <div class="admin-thumb">
+
+                ${
+                    p.image
+                    ?
+                    `<img src="${p.image}">`
+                    :
+                    `<span>📦</span>`
+                }
+
+            </div>
+
+            <div class="admin-info">
+
+                <h4>${escapeHTML(p.name)}</h4>
+
+                <small>
+                    ${escapeHTML(p.category)}
+                    • ₹${Number(p.price).toLocaleString("en-IN")}
+                </small>
+
+            </div>
+
+            <div class="admin-actions">
+
+                <button
+                    class="edit-btn"
+                    onclick="editProduct(${p.id})">
+                    Edit
+                </button>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteProduct(${p.id})">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* ================================
+   PRODUCT EDITOR
+================================ */
+
+function openProductEditor(){
+
+    editingId = null;
+
+    uploadedImage = "";
+
+    document.getElementById("editorTitle")
+        .textContent="Add New Product";
+
+    document.getElementById("productName").value="";
+    document.getElementById("productPrice").value="";
+    document.getElementById("productCategory").value="Ebooks";
+    document.getElementById("productDescription").value="";
+    document.getElementById("productImage").value="";
+    document.getElementById("imagePreview").innerHTML="";
+
+    document.getElementById("editorModal")
+        .style.display="flex";
+
+}
+
+function closeEditor(){
+
+    document.getElementById("editorModal")
+        .style.display="none";
+
+}
+
+function editProduct(id){
+
+    const p =
+        products.find(x=>x.id===id);
+
+    if(!p) return;
+
+    editingId=id;
+
+    uploadedImage=p.image || "";
+
+    document.getElementById("editorTitle")
+        .textContent="Edit Product";
+
+    document.getElementById("productName").value=p.name;
+
+    document.getElementById("productPrice").value=p.price;
+
+    document.getElementById("productCategory").value=p.category;
+
+    document.getElementById("productDescription").value=p.description;
+
+    document.getElementById("productImage").value="";
+
+    if(p.image){
+
+        document.getElementById("imagePreview").innerHTML=`
+            <img src="${p.image}"
+                 style="width:100%;max-height:200px;object-fit:cover;border-radius:12px">
+        `;
+
+    }else{
+
+        document.getElementById("imagePreview").innerHTML="";
+
+    }
+
+    document.getElementById("editorModal")
+        .style.display="flex";
+
+}
+
+function previewImage(event){
+
+    const file =
+        event.target.files[0];
+
+    if(!file) return;
+
+    const reader =
+        new FileReader();
+
+    reader.onload=function(e){
+
+        uploadedImage=e.target.result;
+
+        document.getElementById("imagePreview")
+            .innerHTML=`
+                <img src="${uploadedImage}"
+                     style="width:100%;max-height:200px;object-fit:cover;border-radius:12px">
+            `;
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+function saveProduct(){
+
+    const name =
+        document.getElementById("productName")
+        .value.trim();
+
+    const price =
+        Number(document.getElementById("productPrice").value);
+
+    const category =
+        document.getElementById("productCategory").value;
+
+    const description =
+        document.getElementById("productDescription")
+        .value.trim();
+
+    if(!name){
+
+        alert("Please enter product name.");
+
+        return;
+
+    }
+
+    if(isNaN(price) || price < 0){
+
+        alert("Please enter a valid price.");
+
+        return;
+
+    }
+
+    if(editingId){
+
+        const index =
+            products.findIndex(p=>p.id===editingId);
+
+        if(index !== -1){
+
+            products[index] = {
+
+                ...products[index],
+
+                name,
+                price,
+                category,
+                description,
+                image:uploadedImage
+
+            };
+
+        }
+
+    }else{
+
+        products.push({
+
+            id:Date.now(),
+
+            name,
+            price,
+            category,
+            description,
+
+            image:uploadedImage
+
+        });
+
+    }
+
+    saveProducts();
+
+    closeEditor();
+
+    renderAdmin();
+
+    renderProducts();
+
+}
+
+function deleteProduct(id){
+
+    const p =
+        products.find(x=>x.id===id);
+
+    if(!p) return;
+
+    const confirmDelete =
+        confirm(
+            "Delete '" + p.name + "'?"
+        );
+
+    if(!confirmDelete) return;
+
+    products =
+        products.filter(x=>x.id!==id);
+
+    saveProducts();
+
+    renderAdmin();
+
+    renderProducts();
+
+}
+
+function saveProducts(){
+
+    localStorage.setItem(
+        "cyberProducts",
+        JSON.stringify(products)
+    );
+
+}
+
+
+/* ================================
+   STOREFRONT
+================================ */
+
+function setCategory(category,button){
+
+    currentCategory=category;
+
+    document.querySelectorAll(".cat")
+        .forEach(x=>x.classList.remove("active"));
+
+    button.classList.add("active");
+
+    renderProducts();
+
+}
+
+function renderProducts(){
+
+    const container =
+        document.getElementById("products");
+
+    const search =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+    const filtered =
+        products.filter(p=>{
+
+            const categoryMatch =
+                currentCategory==="All" ||
+                p.category===currentCategory;
+
+            const searchMatch =
+                p.name.toLowerCase()
+                    .includes(search) ||
+                p.description.toLowerCase()
+                    .includes(search);
+
+            return categoryMatch &&
+                   searchMatch;
+
+        });
+
+    if(filtered.length===0){
+
+        container.innerHTML=`
+            <div class="empty">
+
+                <div>
+
+                    <div style="font-size:45px">
+                        🛍️
+                    </div>
+
+                    <h3 style="margin:12px 0">
+                        No products available
+                    </h3>
+
+                    <p>
+                        Products will appear here
+                        when you add them from Admin Panel.
+                    </p>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+    container.innerHTML =
+        filtered.map(p=>`
+
+        <div class="card">
+
+            <div class="card-img">
+
+                ${
+                    p.image
+                    ?
+                    `<img src="${p.image}"
+                          alt="${escapeHTML(p.name)}">`
+                    :
+                    `<div class="no-image">📦</div>`
+                }
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="card-category">
+                    ${escapeHTML(p.category)}
+                </div>
+
+                <h3>
+                    ${escapeHTML(p.name)}
+                </h3>
+
+                <div class="card-desc">
+                    ${escapeHTML(p.description)}
+                </div>
+
+                <div class="card-bottom">
+
+                    <div class="price">
+                        ₹${Number(p.price).toLocaleString("en-IN")}
+                    </div>
+
+                    <button
+                        class="add-btn"
+                        onclick="addToCart(${p.id})">
+                        Add
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* ================================
+   CART
+================================ */
+
+function addToCart(id){
+
+    const product =
+        products.find(p=>p.id===id);
+
+    if(!product) return;
+
+    cart.push(product);
+
+    updateCart();
+
+}
+
+function updateCart(){
+
+    document.getElementById("cartCount")
+        .textContent=cart.length;
+
+    const box =
+        document.getElementById("cartItems");
+
+    if(cart.length===0){
+
+        box.innerHTML=`
+            <p style="color:#718078">
+                Your cart is empty.
+            </p>
+        `;
+
+        document.getElementById("cartTotal")
+            .textContent="0";
+
+        return;
+
+    }
+
+    box.innerHTML =
+        cart.map((p,i)=>`
+
+        <div class="cart-item">
+
+            <div>
+                <b>${escapeHTML(p.name)}</b>
+                <br>
+                <small style="color:#718078">
+                    ₹${Number(p.price).toLocaleString("en-IN")}
+                </small>
+            </div>
+
+            <span
+                class="remove"
+                onclick="removeCart(${i})">
+                Remove
+            </span>
+
+        </div>
+
+    `).join("");
+
+    const total =
+        cart.reduce(
+            (sum,p)=>sum+Number(p.price),
+            0
+        );
+
+    document.getElementById("cartTotal")
+        .textContent=
+        total.toLocaleString("en-IN");
+
+}
+
+function removeCart(index){
+
+    cart.splice(index,1);
+
+    updateCart();
+
+}
+
+function openCart(){
+
+    document.getElementById("cartModal")
+        .style.display="flex";
+
+    updateCart();
+
+}
+
+function closeCart(){
+
+    document.getElementById("cartModal")
+        .style.display="none";
+
+}
+
+
+/* ================================
+   WHATSAPP ORDER
+================================ */
+
+function orderWhatsApp(){
+
+    if(cart.length===0){
+
+        alert("Your cart is empty.");
+
+        return;
+
+    }
+
+    let message =
+        "Hello Cyber Learners Digital Store,%0A%0A" +
+        "I want to purchase:%0A%0A";
+
+    cart.forEach(p=>{
+
+        message +=
+            "• " +
+            encodeURIComponent(p.name) +
+            " - ₹" +
+            p.price +
+            "%0A";
+
+    });
+
+    const total =
+        cart.reduce(
+            (sum,p)=>sum+Number(p.price),
+            0
+        );
+
+    message +=
+        "%0ATotal: ₹" +
+        total +
+        "%0A%0APlease share payment details.";
+
+    window.open(
+        "https://wa.me/" +
+        WHATSAPP_NUMBER +
+        "?text=" +
+        message,
+        "_blank"
+    );
+
+}
+
+
+/* ================================
+   SECURITY / HTML ESCAPE
+================================ */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ================================
+   START
+================================ */
+
+renderProducts();
+
+</script>
+
+</body>
+  </html>
